@@ -2,12 +2,12 @@ let inputDir = {x:0,y:0};
 const foodSound = new Audio('food.mp3');
 const gameOverSound = new Audio('gameover.mp3');
 const moveSound = new Audio('move.mp3');
-const musicSound = new Audio('music.mp3');
 let speed = 10;
+let hiScore = 0;
 let score = 0;
 let lastPaintTime = 0; 
 let snakeArr = [
-    {x:20, y:15}
+    {x:7, y:7}
 ];
 
 food = {x:13, y:10};
@@ -37,18 +37,23 @@ function gameEngine(){
     // update snake
      if(isCollide(snakeArr)){
          gameOverSound.play();
-         musicSound.pause();
          inputDir = {x:0,y:0};
          alert("GAME OVER!!! press any key to play again");
-         snakeArr = [{x:20,y:15}];
-         musicSound.play();
+         snakeArr = [{x:7,y:7}];
+         speed = 10;
          score = 0;
+         currentScore.innerHTML = "Current Score : " + score;
      }
 
     
      if(snakeArr[0].y === food.y && snakeArr[0].x === food.x){
         foodSound.play();
         score += 1;
+        speed += 0.1;
+        if(score > hiScore){
+            hiScore = score;
+            highScore.innerHTML = "High Score : " + hiScore;
+        }
         currentScore.innerHTML = "Current Score : " + score;
         snakeArr.unshift({x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y});
         let a1 = 2;
@@ -97,26 +102,40 @@ window.requestAnimationFrame(main);
 window.addEventListener('keydown',e => {
     inputDir = {x:0,y:1}
     moveSound.play();
-    switch(e.key){
-
-        case "ArrowUp":
-            inputDir.x = 0 ;
-            inputDir.y = -1 ;
-            break;
-
-        case "ArrowDown":
-            inputDir.x = 0 ;
-            inputDir.y = 1 ;
-            break;
-
-        case "ArrowRight":
-            inputDir.x = 1;
-            inputDir.y = 0;
-            break;
-  
-        case "ArrowLeft":
-            inputDir.x = -1;
-            inputDir.y = 0;
-            break;
+    if(e.key === "ArrowUp" && inputDir.y != -1){
+        inputDir.x = 0 ;
+        inputDir.y = -1 ;
+    }else if(e.key === "ArrowDown"){
+        inputDir.x = 0 ;
+        inputDir.y = 1 ;
+    }else if(e.key === "ArrowRight"){
+        inputDir.x = 1;
+        inputDir.y = 0;
+    }else if(e.key === "ArrowLeft"){
+        inputDir.x = -1;
+        inputDir.y = 0;
     }
+
+    // switch(e.key){
+
+    //     case "ArrowUp":
+    //         inputDir.x = 0 ;
+    //         inputDir.y = -1 ;
+    //         break;
+
+    //     case "ArrowDown":
+    //         inputDir.x = 0 ;
+    //         inputDir.y = 1 ;
+    //         break;
+
+    //     case "ArrowRight":
+    //         inputDir.x = 1;
+    //         inputDir.y = 0;
+    //         break;
+  
+    //     case "ArrowLeft":
+    //         inputDir.x = -1;
+    //         inputDir.y = 0;
+    //         break;
+    // }
 });
