@@ -2,15 +2,46 @@ let inputDir = {x:0,y:0};
 const foodSound = new Audio('food.mp3');
 const gameOverSound = new Audio('gameover.mp3');
 const moveSound = new Audio('move.mp3');
+let originalSpeed = 10;
 let speed = 10;
+let sChnage = 0;
 let hiScore = 0;
 let score = 0;
 let lastPaintTime = 0; 
+let a1 = 2;
+let b1 = 32;
+let a2 = 2;
+let b2 = 18;
 let snakeArr = [
     {x:7, y:7}
 ];
 
 food = {x:13, y:10};
+
+function setSpeed(){
+    var selectedSpeed = document.getElementById("speedSelect").value;
+    if(selectedSpeed === "Dy"){
+        originalSpeed = 11;
+        speed = 11;
+        sChnage = 0.2;
+    }else if(selectedSpeed === "Easy"){
+        originalSpeed = 10;
+        speed = 10;
+        sChnage = 0;
+    }else if(selectedSpeed === "Medium"){
+        originalSpeed = 15;
+        speed = 15;
+        sChnage = 0;
+    }else if(selectedSpeed === "Hard"){
+        originalSpeed = 20;
+        speed = selectedSpeed;
+        sChnage = 0;
+    }else{
+        speed = 10;
+        sChnage = 0;
+    }
+}
+
 function main(ctime){
     window.requestAnimationFrame(main);
     if((ctime - lastPaintTime)/ 1000 < 1/speed){
@@ -32,6 +63,14 @@ function isCollide(snake){
     return false;
 }
 
+function generateFood(){
+    food = {x: Math.round(a1 + (b1 -a1)*Math.random()), y: Math.round(a2 +(b2 - a2)*Math.random())}
+    for(let i = 0;i < snakeArr.length;i++){
+        if(food.x == snakeArr[i].x && food.y == snakeArr[i].y){
+            generateFood();
+        }
+    }
+}
 
 function gameEngine(){
     // update snake
@@ -40,7 +79,7 @@ function gameEngine(){
          inputDir = {x:0,y:0};
          alert("GAME OVER!!! press any key to play again");
          snakeArr = [{x:7,y:7}];
-         speed = 10;
+         speed = originalSpeed;
          score = 0;
          currentScore.innerHTML = "Current Score : " + score;
      }
@@ -49,18 +88,14 @@ function gameEngine(){
      if(snakeArr[0].y === food.y && snakeArr[0].x === food.x){
         foodSound.play();
         score += 1;
-        speed += 0.1;
+        speed += sChnage;
         if(score > hiScore){
             hiScore = score;
             highScore.innerHTML = "High Score : " + hiScore;
         }
         currentScore.innerHTML = "Current Score : " + score;
         snakeArr.unshift({x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y});
-        let a1 = 2;
-        let b1 = 32;
-        let a2 = 2;
-        let b2 = 18;
-         food = {x: Math.round(a1 + (b1 -a1)*Math.random()), y: Math.round(a2 +(b2 - a2)*Math.random())}
+        generateFood();
      }
 
      //moving
@@ -79,7 +114,17 @@ function gameEngine(){
         snakeElement.style.gridColumnStart = e.x;
         
         if(index == 0){
-            snakeElement.classList.add('head');
+            if(inputDir.x == 0 && inputDir.y == 1){
+                snakeElement.classList.add('headb');
+            }else if(inputDir.x == 0 && inputDir.y == -1){
+                snakeElement.classList.add('headt');
+            }else if(inputDir.x == 1 && inputDir.y == 0){
+                snakeElement.classList.add('headr');
+            }else if(inputDir.x == -1 && inputDir.y == 0){
+                snakeElement.classList.add('headl');
+            }else{
+              snakeElement.classList.add('headr');
+            }
         }
         else{
             snakeElement.classList.add('snake');
@@ -102,12 +147,18 @@ window.requestAnimationFrame(main);
 window.addEventListener('keydown',e => {
     inputDir = {x:0,y:1}
     moveSound.play();
-    if(e.key === "ArrowUp" && inputDir.y != -1){
+    if(e.key === "ArrowUp"){
         inputDir.x = 0 ;
         inputDir.y = -1 ;
+        
     }else if(e.key === "ArrowDown"){
-        inputDir.x = 0 ;
-        inputDir.y = 1 ;
+        if(inputDir.x == 0 && inputDir.y == -1){
+            inputDir.x = 0 ;
+            inputDir.y = -1 ;
+        }else{
+            inputDir.x = 0 ;
+            inputDir.y = 1 ;
+        }
     }else if(e.key === "ArrowRight"){
         inputDir.x = 1;
         inputDir.y = 0;

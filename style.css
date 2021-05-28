@@ -40,9 +40,27 @@ section{
   grid-template-columns: repeat(35,1fr);
 }
 
-.head{
-  background: linear-gradient(rgb(27, 128, 47),green);
-  border-radius: 5px;
+.headt{
+  background: linear-gradient(rgb(27, 128, 47),rgb(77, 241, 143),green);
+  border-radius: 15px 15px 5px 5px;
+  border: .25vmin solid black;
+  transform: scale(1.05);
+}
+.headb{
+  background: linear-gradient(rgb(27, 128, 47),rgb(77, 241, 143),green);
+  border-radius: 5px 5px 15px 15px;
+  border: .25vmin solid black;
+  transform: scale(1.05);
+}
+.headr{
+  background: linear-gradient(rgb(27, 128, 47),rgb(77, 241, 143),green);
+  border-radius: 5px 15px 15px 5px;
+  border: .25vmin solid black;
+  transform: scale(1.05);
+}
+.headl{
+  background: linear-gradient(rgb(27, 128, 47),rgb(77, 241, 143),green);
+  border-radius: 15px 5px 5px 15px;
   border: .25vmin solid black;
   transform: scale(1.05);
 }
@@ -54,9 +72,9 @@ section{
 }
 
 .snake{
-  background: linear-gradient(purple,brown,purple);
+  background: linear-gradient(rgb(50, 169, 97),rgb(38, 120, 71));
   border: .25vmin solid white;
   border-radius: 5px;
   transform: scale(0.95);
-  
+
 }
