@@ -29,12 +29,12 @@ function setSpeed(){
         speed = 10;
         sChnage = 0;
     }else if(selectedSpeed === "Medium"){
-        originalSpeed = 15;
-        speed = 15;
+        originalSpeed = 17;
+        speed = 17;
         sChnage = 0;
     }else if(selectedSpeed === "Hard"){
-        originalSpeed = 20;
-        speed = selectedSpeed;
+        originalSpeed = 23;
+        speed = 23;
         sChnage = 0;
     }else{
         speed = 10;
